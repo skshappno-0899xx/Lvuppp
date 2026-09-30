@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — SHAPPNO LV UP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05070d;
+            --bg-2: #080c16;
+            --card-bg: rgba(12, 18, 32, 0.75);
+            --border: rgba(56, 189, 248, 0.15);
+            --border-hover: rgba(56, 189, 248, 0.4);
+            --accent: #38bdf8;
+            --accent-2: #3b82f6;
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            --text: #e8eef7;
+            --muted: #7a8799;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* ===== Ambient animated background ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: -30%;
+            background:
+                radial-gradient(circle at 25% 25%, rgba(56, 189, 248, 0.15) 0%, transparent 55%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.12) 0%, transparent 55%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+            animation: bgFloat 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgFloat {
+            0%   { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(-2%, 2%) scale(1.05); }
+            100% { transform: translate(2%, -2%) scale(1); }
+        }
+
+        /* ===== Subtle grid overlay ===== */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== Brand ===== */
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-logo {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            animation: logoPulse 3.6s ease-in-out infinite alternate;
+        }
+
+        .brand-logo::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #38bdf8, #3b82f6, #8b5cf6, #38bdf8);
+            z-index: -1;
+            animation: spinRing 6s linear infinite;
+        }
+
+        .brand-logo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid #05070d;
+            z-index: 1;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            padding: 2px;
+            background: #000;
+        }
+
+        @keyframes spinRing {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes logoPulse {
+            0%   { box-shadow: 0 0 25px rgba(56, 189, 248, 0.4), 0 0 50px rgba(56, 189, 248, 0.15); }
+            100% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.25); }
+        }
+
+        .brand h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .brand h1 .grad {
+            background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand p {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== Card ===== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 34px 28px 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(56, 189, 248, 0.05) inset;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.6), transparent);
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .card-sub {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-bottom: 26px;
+            font-weight: 500;
+        }
+
+        /* ===== Form ===== */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            margin-bottom: 9px;
+            font-weight: 800;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i.lock {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 15px;
+            pointer-events: none;
+            transition: all 0.25s;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1.5px solid rgba(56, 189, 248, 0.15);
+            border-radius: 12px;
+            padding: 15px 46px 15px 44px;
+            color: #fff;
+            font-size: 14.5px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1.5px;
+            outline: none;
+            transition: all 0.25s;
+            font-weight: 500;
+        }
+
+        .input-wrap input::placeholder {
+            color: #475569;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+
+        .input-wrap input:focus {
+            border-color: var(--accent);
+            box-shadow:
+                0 0 0 4px rgba(56, 189, 248, 0.12),
+                0 0 20px rgba(56, 189, 248, 0.15);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .input-wrap input:focus ~ i.lock {
+            color: #7dd3fc;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .toggle-eye {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 7px;
+            font-size: 14px;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+
+        .toggle-eye:hover {
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        /* ===== Buttons ===== */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
+            color: #04080f;
+            box-shadow:
+                0 8px 24px rgba(56, 189, 248, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            margin-top: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-primary:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 32px rgba(56, 189, 248, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            margin-top: 12px;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-back:hover {
+            color: var(--text);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.05);
+            transform: translateY(-1px);
+        }
+
+        /* ===== Alerts ===== */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 11px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 9px;
+            line-height: 1.4;
+        }
+
+        .alert.show { display: flex; }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #6ee7b7;
+        }
+
+        .alert i {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* ===== Footer ===== */
+        .footer-note {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.06);
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .footer-note i {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+
+        /* ===== Spinner ===== */
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(4, 8, 15, 0.3);
+            border-top-color: #04080f;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== Mobile ===== */
+        @media (max-width: 480px) {
+            body { padding: 16px; }
+            .wrap { max-width: 100%; }
+            .brand-logo { width: 84px; height: 84px; }
+            .brand h1 { font-size: 24px; }
+            .card { padding: 28px 22px 22px; border-radius: 20px; }
+            .card-title { font-size: 17px; }
+            .input-wrap input { padding: 14px 42px 14px 42px; font-size: 14px; }
+            .btn { padding: 14px; font-size: 12.5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <!-- BRAND -->
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="https://files.catbox.moe/5ldehy.png" alt="SHAPPNO">
+            </div>
+            <h1>SHAPPNO <span class="grad">LV UP</span></h1>
+            <p>Automated EXP Farming System</p>
+        </div>
+
+        <!-- CARD -->
+        <div class="card">
+            <div class="card-title">Welcome Back</div>
+            <div class="card-sub">Enter your access password to continue</div>
+
+            <div class="alert alert-error" id="alert-box"></div>
+            <div class="alert alert-success" id="alert-success"></div>
+
+            <form id="login-form" onsubmit="submitLogin(event)">
+                <div class="form-group">
+                    <label>Access Password</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-key lock"></i>
+                        <input type="password" id="password"
+                               placeholder="Enter your password"
+                               autocomplete="current-password" required>
+                        <button type="button" class="toggle-eye" onclick="togglePwd()" tabindex="-1">
+                            <i class="fa-solid fa-eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submit-btn">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>LOGIN</span>
+                </button>
+
+                <button type="button" class="btn btn-back" onclick="goBack()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>BACK</span>
+                </button>
+            </form>
+
+            <div class="footer-note">
+                <i class="fa-solid fa-circle-info"></i>
+                Contact admin to get your access password
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePwd() {
+            const inp = document.getElementById('password');
+            const icon = document.getElementById('eye-icon');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                inp.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function showAlert(msg, type = 'error') {
+            const errBox = document.getElementById('alert-box');
+            const okBox = document.getElementById('alert-success');
+            errBox.classList.remove('show');
+            okBox.classList.remove('show');
+
+            if (type === 'success') {
+                okBox.innerHTML = '<i class="fa-solid fa-check-circle"></i><span>' + msg + '</span>';
+                okBox.classList.add('show');
+            } else {
+                errBox.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i><span>' + msg + '</span>';
+                errBox.classList.add('show');
+            }
+        }
+
+        function hideAlert() {
+            document.getElementById('alert-box').classList.remove('show');
+            document.getElementById('alert-success').classList.remove('show');
+        }
+
+        // Session expired message
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('expired') === '1') {
+            showAlert('Your session has expired. Please login again.', 'error');
+        }
+
+        async function submitLogin(e) {
+            e.preventDefault();
+            hideAlert();
+
+            const password = document.getElementById('password').value.trim();
+            const btn = document.getElementById('submit-btn');
+            const originalHtml = btn.innerHTML;
+
+            if (!password) {
+                showAlert('Password required');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span><span>LOGGING IN...</span>';
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ password })
+                });
+                const data = await res.json();
+
+                if (data.status === 'ok') {
+                    showAlert('Login successful! Redirecting...', 'success');
+                    setTimeout(() => { window.location.href = '/dashboard'; }, 500);
+                } else {
+                    showAlert(data.error || 'Login failed');
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                }
+            } catch (err) {
+                showAlert('Connection error: ' + err.message);
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        function goBack() {
+            window.location.href = '/';
+        }
+
+        // Auto-focus on password field
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('password').focus();
+            }, 200);
+        });
+    </script>
+</body>
+</html>

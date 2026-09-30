@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access — SHAPPNO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05060a;
+            --card-bg: #0b0e17;
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #f59e0b;
+            --accent-2: #ef4444;
+            --text: #e8eef7;
+            --muted: #7a8799;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient glow */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: -20%;
+            background:
+                radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.10) 0%, transparent 55%),
+                radial-gradient(circle at 70% 70%, rgba(239, 68, 68, 0.08) 0%, transparent 55%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand-logo {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            box-shadow:
+                0 0 30px rgba(245, 158, 11, 0.45),
+                inset 0 0 20px rgba(245, 158, 11, 0.1);
+            background: #000;
+            animation: pulse-glow 2.4s ease-in-out infinite alternate;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes pulse-glow {
+            0%   { box-shadow: 0 0 20px rgba(245, 158, 11, 0.35), inset 0 0 15px rgba(245, 158, 11, 0.05); }
+            100% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.55), inset 0 0 25px rgba(239, 68, 68, 0.10); }
+        }
+
+        .brand h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .brand p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            margin-top: 8px;
+            font-weight: 700;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 18px;
+            padding: 30px 26px;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(245, 158, 11, 0.05) inset;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title::before {
+            content: '$>';
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i.lock {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 14px;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            background: #04060b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 10px;
+            padding: 13px 42px 13px 40px;
+            color: #fff;
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-wrap input::placeholder {
+            color: #3a4456;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrap input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+            background: #050810;
+        }
+
+        .input-wrap input:focus ~ i.lock {
+            color: #fbbf24;
+        }
+
+        .toggle-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 6px;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .toggle-eye:hover { color: var(--accent); }
+
+        .btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: #1a0f00;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+            margin-top: 6px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 26px rgba(245, 158, 11, 0.55);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            margin-top: 12px;
+        }
+
+        .btn-back:hover {
+            color: var(--text);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .alert {
+            padding: 10px 14px;
+            border-radius: 9px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: none;
+            letter-spacing: 0.5px;
+        }
+
+        .alert.show { display: block; }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.10);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.10);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #6ee7b7;
+        }
+
+        .warning {
+            margin-top: 22px;
+            padding: 12px 14px;
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .warning i {
+            margin-right: 6px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            border: 2px solid rgba(26, 15, 0, 0.3);
+            border-top-color: #1a0f00;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="https://files.catbox.moe/5ldehy.png" alt="SHAPPNO">
+            </div>
+            <h1>SHAPPNO LV UP PRO</h1>
+            <p>SECURE  ADMIN  TERMINAL</p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">LOGIN_REQUIRED</div>
+
+            <div class="alert alert-error" id="alert-box"></div>
+
+            <form id="admin-form" onsubmit="submitAdmin(event)">
+                <div class="form-group">
+                    <label>Admin Access Password</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-shield-halved lock"></i>
+                        <input type="password" id="admin-password"
+                               placeholder="Enter admin password" autocomplete="current-password" required>
+                        <button type="button" class="toggle-eye" onclick="togglePwd()">
+                            <i class="fa-solid fa-eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submit-btn">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>AUTHENTICATE</span>
+                </button>
+
+                <button type="button" class="btn btn-back" onclick="goBack()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>BACK</span>
+                </button>
+            </form>
+
+            <div class="warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                UNAUTHORIZED ACCESS PROHIBITED
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePwd() {
+            const inp = document.getElementById('admin-password');
+            const icon = document.getElementById('eye-icon');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                inp.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function showAlert(msg, type = 'error') {
+            const box = document.getElementById('alert-box');
+            box.className = 'alert alert-' + type + ' show';
+            box.innerText = msg;
+        }
+
+        function hideAlert() {
+            document.getElementById('alert-box').classList.remove('show');
+        }
+
+        async function submitAdmin(e) {
+            e.preventDefault();
+            hideAlert();
+
+            const password = document.getElementById('admin-password').value.trim();
+            const btn = document.getElementById('submit-btn');
+            const originalHtml = btn.innerHTML;
+
+            if (!password) {
+                showAlert('Password required');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span><span>VERIFYING...</span>';
+
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ password })
+                });
+                const data = await res.json();
+
+                if (data.status === 'ok') {
+                    showAlert('Access granted', 'success');
+                    setTimeout(() => { window.location.href = '/admin'; }, 400);
+                } else {
+                    showAlert(data.error || 'Access denied');
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                }
+            } catch (err) {
+                showAlert('Connection error');
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

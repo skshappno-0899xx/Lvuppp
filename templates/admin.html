@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — SHAPPNO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05070d;
+            --card-bg: #0a1018;
+            --card-bg-2: #0e1520;
+            --border: rgba(255, 255, 255, 0.07);
+            --accent: #f59e0b;
+            --accent-2: #ef4444;
+            --green: #10b981;
+            --cyan: #38bdf8;
+            --purple: #a78bfa;
+            --text: #e8eef7;
+            --muted: #7a8799;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse at 15% 0%, rgba(245, 158, 11, 0.07) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 100%, rgba(239, 68, 68, 0.05) 0%, transparent 55%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 18px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            flex-shrink: 0;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.35);
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .brand-text h1 {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            outline: none;
+            white-space: nowrap;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: #1a0f00;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .btn-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+        }
+
+        .btn-success:hover { background: rgba(16, 185, 129, 0.2); }
+
+        .btn-cyan {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #7dd3fc;
+        }
+
+        .btn-cyan:hover { background: rgba(56, 189, 248, 0.2); }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(245, 158, 11, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.amber { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+        .stat-icon.purple { background: rgba(167, 139, 250, 0.12); color: #c4b5fd; }
+
+        .stat-content h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.5px;
+        }
+
+        .stat-content p {
+            font-size: 10.5px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* ===== MAIN GRID ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 18px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .panel-title i { color: var(--accent); }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            font-weight: 800;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 13px;
+            color: #fff;
+            font-size: 13.5px;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input::placeholder { color: #4b5563; font-weight: 400; }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        .form-select option { background: #0b121c; color: #fff; }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .vip-toggle-row {
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 11px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .vip-opt {
+            flex: 1;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            color: var(--muted);
+            background: transparent;
+        }
+
+        .vip-opt.active.no-vip {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: rgba(56, 189, 248, 0.35);
+            color: var(--cyan);
+        }
+
+        .vip-opt.active.vip {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.45);
+            color: #fbbf24;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.2);
+        }
+
+        /* ===== USERS LIST ===== */
+        .users-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            max-width: 260px;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 8px 12px 8px 34px;
+            color: #fff;
+            font-size: 12.5px;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .search-input:focus { border-color: var(--accent); }
+
+        .users-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 700px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .users-list::-webkit-scrollbar { width: 6px; }
+        .users-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .user-card {
+            background: rgba(10, 15, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 16px;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .user-card.vip {
+            border-color: rgba(245, 158, 11, 0.25);
+            background: linear-gradient(180deg, rgba(245, 158, 11, 0.04) 0%, rgba(10, 15, 30, 0.7) 100%);
+        }
+
+        .user-card:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .user-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .user-info { min-width: 0; flex: 1; }
+
+        .user-info h4 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-info span {
+            font-size: 11px;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .user-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 9px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .badge-active {
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-expired {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-vip {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.15));
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .badge-novip {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        .user-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .detail-label {
+            font-size: 9px;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+        }
+
+        .detail-val {
+            font-size: 12.5px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .detail-val.countdown {
+            color: var(--cyan);
+        }
+
+        .detail-val.countdown.warning { color: #fbbf24; }
+
+        .detail-val.countdown.danger {
+            color: #f87171;
+            animation: pulse-txt 1.2s infinite alternate;
+        }
+
+        @keyframes pulse-txt {
+            0% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .user-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .user-actions .btn {
+            padding: 7px 11px;
+            font-size: 11px;
+        }
+
+        /* ===== ALERT ===== */
+        .alert {
+            padding: 10px 14px;
+            border-radius: 9px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: none;
+        }
+
+        .alert.show { display: block; }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 6, 15, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #0c1224;
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 420px;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .modal-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.08);
+            display: block;
+        }
+
+        .empty-state p { font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <div class="logo-box">
+                    <img src="https://files.catbox.moe/5ldehy.png" alt="SHAPPNO">
+                </div>
+                <div class="brand-text">
+                    <h1>ADMIN PANEL</h1>
+                    <p>Manage users · VIP · Limits · Popup</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" onclick="loadUsers(); loadPopup();">
+                    <i class="fa-solid fa-rotate"></i> Refresh
+                </button>
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon amber"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-content">
+                    <h3 id="stat-total-users">0</h3>
+                    <p>Total Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fa-solid fa-user-check"></i></div>
+                <div class="stat-content">
+                    <h3 id="stat-active-users">0</h3>
+                    <p>Active</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="fa-solid fa-user-clock"></i></div>
+                <div class="stat-content">
+                    <h3 id="stat-expired-users">0</h3>
+                    <p>Expired</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="fa-solid fa-star"></i></div>
+                <div class="stat-content">
+                    <h3 id="stat-vip-users">0</h3>
+                    <p>VIP Users</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="main-grid">
+            <!-- CREATE USER -->
+            <div class="panel">
+                <div class="panel-title">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Create New User</span>
+                </div>
+
+                <div class="alert alert-error" id="form-alert"></div>
+
+                <form id="create-user-form" onsubmit="submitCreateUser(event)">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-input" id="new-username"
+                               placeholder="e.g. user001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" class="form-input" id="new-password"
+                               placeholder="Set a password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Account Limit (max 1000)</label>
+                        <input type="number" class="form-input" id="new-limit"
+                               value="2" min="1" max="1000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <div class="row-2">
+                            <input type="number" class="form-input" id="new-duration-value"
+                                   value="1" min="1" required>
+                            <select class="form-select" id="new-duration-unit">
+                                <option value="minutes">Minutes</option>
+                                <option value="hours" selected>Hours</option>
+                                <option value="days">Days</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>VIP Access (File Upload)</label>
+                        <div class="vip-toggle-row">
+                            <button type="button" class="vip-opt no-vip active"
+                                    id="vip-no" onclick="setVip(false)">
+                                <i class="fa-solid fa-user"></i> NO VIP
+                            </button>
+                            <button type="button" class="vip-opt vip"
+                                    id="vip-yes" onclick="setVip(true)">
+                                <i class="fa-solid fa-star"></i> VIP
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:6px;">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Create User</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- USERS LIST -->
+            <div class="panel">
+                <div class="users-header">
+                    <div class="panel-title" style="margin-bottom:0; padding-bottom:0; border:none;">
+                        <i class="fa-solid fa-list"></i>
+                        <span>All Users</span>
+                    </div>
+                    <div class="search-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" class="search-input" id="search-users"
+                               placeholder="Search username..." oninput="filterUsers()">
+                    </div>
+                </div>
+
+                <div class="users-list" id="users-list">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                        <p>Loading users...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POPUP SETTINGS -->
+        <div class="panel" style="margin-top:18px;">
+            <div class="panel-title">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Landing Page Popup</span>
+            </div>
+
+            <div class="alert alert-success" id="popup-alert-success"></div>
+            <div class="alert alert-error" id="popup-alert-error"></div>
+
+            <form id="popup-form" onsubmit="savePopup(event)">
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-select" id="popup-enabled">
+                            <option value="true">ON — Show on landing</option>
+                            <option value="false">OFF — Hide</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Header</label>
+                        <input type="text" class="form-input" id="popup-header">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-input" id="popup-title">
+                </div>
+
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea class="form-input" id="popup-message" rows="3"
+                              style="resize:vertical; min-height:70px;"></textarea>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Button Text</label>
+                        <input type="text" class="form-input" id="popup-button-text">
+                    </div>
+                    <div class="form-group">
+                        <label>Button Link</label>
+                        <input type="text" class="form-input" id="popup-button-link">
+                    </div>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Icon Class</label>
+                        <input type="text" class="form-input" id="popup-icon-class">
+                    </div>
+                    <div class="form-group">
+                        <label>Icon Color</label>
+                        <input type="text" class="form-input" id="popup-icon-color">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:6px;">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Save Popup Settings</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EXTEND TIME MODAL -->
+    <div class="modal-overlay" id="extend-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-clock-rotate-left" style="color:#fbbf24;"></i> Extend Time</h3>
+                <button class="icon-btn" onclick="closeExtendModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p style="font-size:12.5px; color:var(--muted); margin-bottom:14px;">
+                User: <span id="extend-username" style="color:#fbbf24; font-weight:700;"></span>
+            </p>
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="number" class="form-input" id="extend-value" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Unit</label>
+                    <select class="form-select" id="extend-unit">
+                        <option value="minutes">Minutes</option>
+                        <option value="hours" selected>Hours</option>
+                        <option value="days">Days</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeExtendModal()">Cancel</button>
+                <button class="btn btn-success" onclick="confirmExtend()">
+                    <i class="fa-solid fa-plus"></i> Extend
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allUsers = [];
+        let currentExtendUser = null;
+        let currentIsVip = false;
+
+        function showAlert(msg, type = 'error') {
+            const box = document.getElementById('form-alert');
+            box.className = 'alert alert-' + type + ' show';
+            box.innerText = msg;
+            if (type === 'success') setTimeout(() => box.classList.remove('show'), 3000);
+        }
+
+        function hideAlert() {
+            document.getElementById('form-alert').classList.remove('show');
+        }
+
+        function setVip(isVip) {
+            currentIsVip = isVip;
+            document.getElementById('vip-no').classList.toggle('active', !isVip);
+            document.getElementById('vip-yes').classList.toggle('active', isVip);
+        }
+
+        async function submitCreateUser(e) {
+            e.preventDefault();
+            hideAlert();
+
+            const username = document.getElementById('new-username').value.trim();
+            const password = document.getElementById('new-password').value.trim();
+            const limit = parseInt(document.getElementById('new-limit').value);
+            const durationValue = parseInt(document.getElementById('new-duration-value').value);
+            const durationUnit = document.getElementById('new-duration-unit').value;
+
+            if (!username || !password) {
+                showAlert('Username and password required');
+                return;
+            }
+            if (limit > 1000) {
+                showAlert('Max limit is 1000');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin/create-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        username, password,
+                        account_limit: limit,
+                        duration_value: durationValue,
+                        duration_unit: durationUnit,
+                        is_vip: currentIsVip
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    showAlert(`User "${username}" created ${currentIsVip ? '(VIP)' : ''}!`, 'success');
+                    document.getElementById('create-user-form').reset();
+                    document.getElementById('new-limit').value = '2';
+                    document.getElementById('new-duration-value').value = '1';
+                    setVip(false);
+                    loadUsers();
+                } else {
+                    showAlert(data.error || 'Failed to create user');
+                }
+            } catch (err) {
+                showAlert('Error: ' + err.message);
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const res = await fetch('/api/admin/users', { credentials: 'same-origin' });
+                if (res.status === 401) {
+                    window.location.href = '/admin-login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    allUsers = data.users || [];
+                    updateStats();
+                    renderUsers();
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function updateStats() {
+            const total = allUsers.length;
+            const active = allUsers.filter(u => u.is_active).length;
+            const expired = total - active;
+            const vipCount = allUsers.filter(u => u.is_vip).length;
+
+            document.getElementById('stat-total-users').innerText = total;
+            document.getElementById('stat-active-users').innerText = active;
+            document.getElementById('stat-expired-users').innerText = expired;
+            document.getElementById('stat-vip-users').innerText = vipCount;
+        }
+
+        function renderUsers() {
+            const container = document.getElementById('users-list');
+            const search = document.getElementById('search-users').value.toLowerCase().trim();
+
+            let filtered = allUsers;
+            if (search) {
+                filtered = allUsers.filter(u => u.username.toLowerCase().includes(search));
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-ghost"></i>
+                        <p>${search ? 'No users match your search' : 'No users yet'}</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(u => {
+                const statusClass = u.is_active ? 'badge-active' : 'badge-expired';
+                const statusText = u.is_active ? 'Active' : 'Expired';
+                const initial = (u.username[0] || '?').toUpperCase();
+                const vipClass = u.is_vip ? 'badge-vip' : 'badge-novip';
+                const vipIcon = u.is_vip ? 'fa-star' : 'fa-user';
+                const vipText = u.is_vip ? 'VIP' : 'NO VIP';
+                const cardCls = u.is_vip ? 'user-card vip' : 'user-card';
+
+                return `
+                    <div class="${cardCls}">
+                        <div class="user-top">
+                            <div class="user-profile">
+                                <div class="user-avatar">${escapeHtml(initial)}</div>
+                                <div class="user-info">
+                                    <h4>${escapeHtml(u.username)}</h4>
+                                    <span>Pass: ${escapeHtml(u.password)}</span>
+                                </div>
+                            </div>
+                            <div class="user-badges">
+                                <span class="badge ${statusClass}">${statusText}</span>
+                                <span class="badge ${vipClass}">
+                                    <i class="fa-solid ${vipIcon}"></i> ${vipText}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="user-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Limit</span>
+                                <span class="detail-val">${u.account_limit}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Added</span>
+                                <span class="detail-val">${u.total_accounts_added || 0}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Time Left</span>
+                                <span class="detail-val countdown" data-expiry="${u.expires_at}">--</span>
+                            </div>
+                        </div>
+
+                        <div class="user-actions">
+                            <button class="btn btn-cyan" onclick="toggleVip('${escapeHtml(u.username)}', ${u.is_vip ? 'false' : 'true'})">
+                                <i class="fa-solid ${u.is_vip ? 'fa-star-half-stroke' : 'fa-star'}"></i>
+                                ${u.is_vip ? 'Remove VIP' : 'Make VIP'}
+                            </button>
+                            <button class="btn btn-cyan" onclick="downloadUser('${escapeHtml(u.username)}')">
+                                <i class="fa-solid fa-download"></i> Download
+                            </button>
+                            <button class="btn btn-success" onclick="openExtendModal('${escapeHtml(u.username)}')">
+                                <i class="fa-solid fa-clock-rotate-left"></i> Extend
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteUser('${escapeHtml(u.username)}')">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateCountdowns();
+        }
+
+        function updateCountdowns() {
+            document.querySelectorAll('.countdown').forEach(el => {
+                const exp = parseFloat(el.dataset.expiry || '0');
+                const diff = exp - (Date.now() / 1000);
+
+                if (diff <= 0) {
+                    el.innerText = 'Expired';
+                    el.classList.add('danger');
+                    return;
+                }
+
+                const days = Math.floor(diff / 86400);
+                const hours = Math.floor((diff % 86400) / 3600);
+                const mins = Math.floor((diff % 3600) / 60);
+                const secs = Math.floor(diff % 60);
+
+                let text = '';
+                if (days > 0) text = `${days}d ${hours}h`;
+                else if (hours > 0) text = `${hours}h ${mins}m`;
+                else if (mins > 0) text = `${mins}m ${secs}s`;
+                else text = `${secs}s`;
+
+                el.innerText = text;
+                el.classList.remove('warning', 'danger');
+                if (diff < 3600) el.classList.add('danger');
+                else if (diff < 86400) el.classList.add('warning');
+            });
+        }
+
+        setInterval(updateCountdowns, 1000);
+
+        function filterUsers() { renderUsers(); }
+
+        async function toggleVip(username, makeVip) {
+            try {
+                const res = await fetch('/api/admin/set-vip', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ username, is_vip: makeVip })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    loadUsers();
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown'));
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        async function downloadUser(username) {
+            window.open('/api/admin/export-user/' + encodeURIComponent(username), '_blank');
+        }
+
+        async function deleteUser(username) {
+            if (!confirm(`Delete user "${username}"? This will also stop their bot.`)) return;
+            try {
+                const res = await fetch('/api/admin/delete-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ username })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    loadUsers();
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown'));
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        function openExtendModal(username) {
+            currentExtendUser = username;
+            document.getElementById('extend-username').innerText = username;
+            document.getElementById('extend-value').value = '1';
+            document.getElementById('extend-unit').value = 'hours';
+            document.getElementById('extend-modal').classList.add('active');
+        }
+
+        function closeExtendModal() {
+            document.getElementById('extend-modal').classList.remove('active');
+            currentExtendUser = null;
+        }
+
+        async function confirmExtend() {
+            if (!currentExtendUser) return;
+            const value = parseInt(document.getElementById('extend-value').value);
+            const unit = document.getElementById('extend-unit').value;
+
+            if (!value || value < 1) {
+                alert('Enter a valid duration');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin/extend-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        username: currentExtendUser,
+                        duration_value: value,
+                        duration_unit: unit
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    closeExtendModal();
+                    loadUsers();
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown'));
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        // ===== POPUP =====
+        async function loadPopup() {
+            try {
+                const res = await fetch('/api/admin/get-popup', { credentials: 'same-origin' });
+                if (res.status === 401) return;
+                const data = await res.json();
+                if (data.status === 'ok' && data.popup) {
+                    const p = data.popup;
+                    document.getElementById('popup-enabled').value = p.enabled ? 'true' : 'false';
+                    document.getElementById('popup-header').value = p.header || '';
+                    document.getElementById('popup-title').value = p.title || '';
+                    document.getElementById('popup-message').value = p.message || '';
+                    document.getElementById('popup-button-text').value = p.button_text || '';
+                    document.getElementById('popup-button-link').value = p.button_link || '';
+                    document.getElementById('popup-icon-class').value = p.icon_class || '';
+                    document.getElementById('popup-icon-color').value = p.icon_color || '';
+                }
+            } catch (err) {
+                console.error('Load popup error:', err);
+            }
+        }
+
+        async function savePopup(e) {
+            e.preventDefault();
+            const okBox = document.getElementById('popup-alert-success');
+            const errBox = document.getElementById('popup-alert-error');
+            okBox.classList.remove('show');
+            errBox.classList.remove('show');
+
+            const payload = {
+                enabled: document.getElementById('popup-enabled').value === 'true',
+                header: document.getElementById('popup-header').value,
+                title: document.getElementById('popup-title').value,
+                message: document.getElementById('popup-message').value,
+                button_text: document.getElementById('popup-button-text').value,
+                button_link: document.getElementById('popup-button-link').value,
+                icon_class: document.getElementById('popup-icon-class').value,
+                icon_color: document.getElementById('popup-icon-color').value
+            };
+
+            try {
+                const res = await fetch('/api/admin/save-popup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    okBox.innerText = '✓ Popup settings saved!';
+                    okBox.classList.add('show');
+                    setTimeout(() => okBox.classList.remove('show'), 3000);
+                } else {
+                    errBox.innerText = data.error || 'Save failed';
+                    errBox.classList.add('show');
+                }
+            } catch (err) {
+                errBox.innerText = 'Connection error';
+                errBox.classList.add('show');
+            }
+        }
+
+        async function logout() {
+            try { await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) {}
+            window.location.href = '/login';
+        }
+
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        loadUsers();
+        loadPopup();
+        setInterval(loadUsers, 10000);
+    </script>
+</body>
+</html>

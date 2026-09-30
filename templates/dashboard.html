@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — SHAPPNO LV UP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05070d;
+            --card-bg: #0a1018;
+            --card-bg-2: #0e1520;
+            --border: rgba(255, 255, 255, 0.07);
+            --accent: #38bdf8;
+            --accent-2: #3b82f6;
+            --green: #10b981;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --purple: #a78bfa;
+            --text: #e8eef7;
+            --muted: #7a8799;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse at 15% -5%, rgba(56, 189, 248, 0.07) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 105%, rgba(139, 92, 246, 0.05) 0%, transparent 55%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        .container { max-width: 760px; margin: 0 auto; }
+
+        /* ===== HEADER ===== */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 14px;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+        .logo-box {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            flex-shrink: 0;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+        }
+
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .brand-text h1 {
+            font-size: 14px; font-weight: 800; color: #fff;
+            letter-spacing: 0.4px; line-height: 1.15;
+        }
+
+        .brand-text p {
+            font-size: 10px; color: var(--muted);
+            margin-top: 1px; font-weight: 600;
+        }
+
+        .header-right {
+            display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+        }
+
+        .chip {
+            display: flex; align-items: center; gap: 5px;
+            padding: 6px 10px; border-radius: 9px;
+            font-size: 11px; font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+
+        .chip.user {
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: var(--accent);
+        }
+
+        .chip.user.vip {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.1));
+            border-color: rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+        }
+
+        .chip.time {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            color: var(--amber);
+        }
+
+        .chip.time.danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.55; }
+        }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 6px; padding: 8px 12px; border-radius: 9px;
+            font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            border: none; outline: none; white-space: nowrap;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38bdf8, #3b82f6);
+            color: #04080f;
+            box-shadow: 0 3px 12px rgba(56, 189, 248, 0.28);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.45);
+        }
+
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-amber {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+        }
+
+        .btn-amber:hover:not(:disabled) {
+            background: rgba(245, 158, 11, 0.22);
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-green {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+        }
+
+        .btn-green:hover:not(:disabled) {
+            background: rgba(16, 185, 129, 0.22);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        /* ===== INFO BAR ===== */
+        .info-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .info-item {
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 11px 12px;
+            display: flex; align-items: center; gap: 10px;
+            min-width: 0;
+        }
+
+        .info-item-icon {
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; flex-shrink: 0;
+        }
+
+        .info-item-icon.cyan { background: rgba(56, 189, 248, 0.12); color: var(--accent); }
+        .info-item-icon.green { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+        .info-item-icon.purple { background: rgba(167, 139, 250, 0.12); color: var(--purple); }
+
+        .info-item-content {
+            display: flex; flex-direction: column; gap: 1px;
+            min-width: 0; overflow: hidden;
+        }
+
+        .info-item-content h3 {
+            font-size: 15px; font-weight: 800; color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.3px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .info-item-content p {
+            font-size: 9px; color: var(--muted);
+            font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* ===== ADD SECTION ===== */
+        .add-section {
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .section-head {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px;
+        }
+
+        .section-head h3 {
+            font-size: 13px; font-weight: 800;
+            display: flex; align-items: center; gap: 7px;
+            color: #fff;
+        }
+
+        .section-head h3 i { color: var(--accent); }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 6px 11px; border-radius: 8px;
+            font-size: 11px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .add-form-body {
+            display: none; margin-top: 14px; padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .add-form-body.open { display: block; animation: fadeIn 0.25s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tabs {
+            display: flex; gap: 6px; margin-bottom: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px; border-radius: 10px;
+        }
+
+        .tab {
+            flex: 1; padding: 9px; border-radius: 8px;
+            text-align: center; font-size: 12px; font-weight: 800;
+            letter-spacing: 0.5px; cursor: pointer;
+            color: var(--muted); transition: all 0.2s;
+            border: none; background: transparent;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        .tab.active {
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .form-stack { display: flex; flex-direction: column; gap: 10px; }
+
+        .form-row-2 {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+        }
+
+        @media (max-width: 520px) {
+            .form-row-2 { grid-template-columns: 1fr; }
+        }
+
+        .form-group label {
+            display: block; font-size: 9.5px; font-weight: 800;
+            color: var(--muted); margin-bottom: 5px;
+            text-transform: uppercase; letter-spacing: 0.6px;
+        }
+
+        .form-input, .form-select {
+            width: 100%; background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px; padding: 10px 13px;
+            color: #fff; font-size: 13.5px; outline: none;
+            transition: all 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+        }
+
+        .form-input::placeholder { color: #4b5563; font-weight: 400; }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        .form-select option { background: #0b121c; color: #fff; }
+
+        .hint-text {
+            font-size: 10.5px; color: var(--muted);
+            margin-top: 6px; line-height: 1.5;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .hint-text code {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 1px 5px; border-radius: 4px; font-size: 10px;
+        }
+
+        .file-drop {
+            border: 2px dashed rgba(56, 189, 248, 0.25);
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(56, 189, 248, 0.02);
+        }
+
+        .file-drop:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .file-drop i {
+            font-size: 26px; color: var(--accent);
+            margin-bottom: 8px; display: block;
+        }
+
+        .file-drop p {
+            font-size: 12.5px; color: var(--text);
+            font-weight: 700; margin-bottom: 4px;
+        }
+
+        .file-drop small {
+            font-size: 10.5px; color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .file-info {
+            margin-top: 10px; padding: 10px 12px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 9px;
+            font-size: 11.5px; color: #6ee7b7;
+            font-family: 'JetBrains Mono', monospace;
+            display: none; word-break: break-all;
+        }
+
+        .file-info.show { display: block; }
+
+        .alert {
+            padding: 10px 13px; border-radius: 10px;
+            font-size: 12.5px; font-weight: 600;
+            margin-bottom: 12px; display: none;
+            align-items: center; gap: 8px; line-height: 1.4;
+        }
+
+        .alert.show { display: flex; }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+        }
+
+        /* ===== ACCOUNT CARDS ===== */
+        .accounts-list {
+            display: flex; flex-direction: column; gap: 14px;
+        }
+
+        .account-card {
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+            position: relative; overflow: hidden;
+        }
+
+        .account-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+
+        .account-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .account-card:hover::before { opacity: 1; }
+
+        .account-card.paused {
+            border-color: rgba(245, 158, 11, 0.3);
+            background: linear-gradient(180deg, rgba(245, 158, 11, 0.03) 0%, #080d16 100%);
+        }
+
+        /* Status */
+        .acc-status {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 10.5px; font-weight: 800;
+            padding: 5px 11px; border-radius: 20px;
+            margin-bottom: 14px; letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .acc-status.in-match {
+            background: rgba(245, 158, 11, 0.12); color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.28);
+        }
+
+        .acc-status.online {
+            background: rgba(16, 185, 129, 0.12); color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.28);
+        }
+
+        .acc-status.searching {
+            background: rgba(56, 189, 248, 0.12); color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.28);
+        }
+
+        .acc-status.offline {
+            background: rgba(122, 135, 153, 0.1); color: var(--muted);
+            border: 1px solid rgba(122, 135, 153, 0.22);
+        }
+
+        .acc-status.paused {
+            background: rgba(245, 158, 11, 0.15); color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .acc-status.error {
+            background: rgba(239, 68, 68, 0.12); color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.28);
+        }
+
+        .acc-status.restarting {
+            background: rgba(167, 139, 250, 0.15); color: #c4b5fd;
+            border: 1px solid rgba(167, 139, 250, 0.4);
+        }
+
+        .status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+            animation: pulse-status 1.8s infinite;
+        }
+
+        @keyframes pulse-status {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.45; }
+        }
+
+        /* Top row: avatar + nickname + tags */
+        .acc-top {
+            display: flex; align-items: flex-start; gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .acc-avatar {
+            width: 54px; height: 54px; border-radius: 14px;
+            background: linear-gradient(135deg, #3b82f6 0%, #38bdf8 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 22px; color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+            text-transform: uppercase; letter-spacing: -1px;
+        }
+
+        .acc-name-block { flex: 1; min-width: 0; }
+
+        .acc-nickname {
+            font-size: 17px; font-weight: 800; color: #fff;
+            letter-spacing: -0.3px; line-height: 1.2;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .acc-tags {
+            display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px;
+        }
+
+        .tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 9px; border-radius: 20px;
+            font-size: 10px; font-weight: 800;
+            letter-spacing: 0.3px; white-space: nowrap;
+        }
+
+        .tag.mode {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            color: #fbbf24;
+        }
+
+        .tag.region {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.28);
+            color: var(--accent);
+        }
+
+        .tag.uptime {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tag.matches {
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: var(--purple);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ACCOUNT ID bar */
+        .acc-id-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+
+        .acc-id-label {
+            font-size: 10px; color: var(--muted);
+            font-weight: 800; letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .acc-id-value {
+            font-size: 17px; font-weight: 800; color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.5px;
+            flex: 1; margin-left: 12px;
+            overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .copy-btn {
+            width: 34px; height: 34px; border-radius: 9px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .copy-btn:hover { background: rgba(56, 189, 248, 0.2); transform: scale(1.05); }
+
+        .copy-btn.copied {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #34d399;
+        }
+
+        /* EXP Grid */
+        .exp-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 8px; margin-bottom: 16px;
+        }
+
+        .exp-box {
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px; padding: 12px 6px;
+            text-align: center;
+        }
+
+        .exp-label {
+            font-size: 9px; color: var(--muted);
+            text-transform: uppercase; font-weight: 800;
+            letter-spacing: 0.7px; margin-bottom: 6px;
+        }
+
+        .exp-value {
+            font-size: 18px; font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff; letter-spacing: -0.5px; line-height: 1;
+        }
+
+        .exp-value.gained {
+            color: #34d399;
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+        }
+
+        /* LEVEL PROGRESS */
+        .level-progress {
+            margin-bottom: 14px;
+        }
+
+        .lvl-row {
+            display: flex; justify-content: space-between;
+            align-items: center; gap: 10px;
+            margin-bottom: 8px; flex-wrap: wrap;
+        }
+
+        .lvl-current {
+            font-size: 13.5px; font-weight: 800; color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.2px;
+        }
+
+        .lvl-current .arrow { color: var(--muted); margin: 0 4px; }
+
+        .lvl-stats {
+            font-size: 12px; font-weight: 700;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .progress-bar-bg {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #10b981);
+            border-radius: 10px;
+            transition: width 0.7s ease;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+        }
+
+        .progress-bar-fill.max {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.6);
+        }
+
+        .remaining-text {
+            text-align: right;
+            font-size: 11.5px;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        .remaining-text strong {
+            color: #fbbf24;
+            font-weight: 800;
+        }
+
+        /* ===== ACTION BUTTONS — EXACT SCREENSHOT MATCH ===== */
+        .acc-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .acc-actions .btn {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 12px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid rgba(120, 30, 40, 0.55);
+            background: #0a0810;
+            color: #f1f5f9;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .acc-actions .btn i {
+            font-size: 13px;
+            color: #f1f5f9;
+        }
+
+        .acc-actions .btn:hover:not(:disabled) {
+            background: #140a12;
+            border-color: rgba(220, 60, 70, 0.7);
+        }
+
+        .acc-actions .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .acc-actions .btn.btn-danger {
+            background: rgba(120, 20, 30, 0.45);
+            border-color: rgba(220, 60, 70, 0.6);
+            color: #fda4af;
+        }
+
+        .acc-actions .btn.btn-danger i {
+            color: #fda4af;
+        }
+
+        .acc-actions .btn.btn-danger:hover:not(:disabled) {
+            background: rgba(150, 25, 40, 0.6);
+            border-color: rgba(240, 80, 90, 0.85);
+        }
+
+        .acc-actions .btn.btn-amber,
+        .acc-actions .btn.btn-green,
+        .acc-actions .btn.btn-ghost {
+            background: #0a0810;
+            border-color: rgba(120, 30, 40, 0.55);
+            color: #f1f5f9;
+        }
+
+        .acc-actions .btn.btn-amber i,
+        .acc-actions .btn.btn-green i,
+        .acc-actions .btn.btn-ghost i {
+            color: #f1f5f9;
+        }
+
+        @media (max-width: 480px) {
+            .acc-actions .btn {
+                font-size: 11.5px;
+                padding: 10px 5px;
+                gap: 4px;
+                border-radius: 12px;
+            }
+            .acc-actions .btn i {
+                font-size: 11px;
+            }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(180deg, #0b121c 0%, #080d16 100%);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 40px; margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.08); display: block;
+        }
+
+        .empty-state h3 {
+            font-size: 15px; color: var(--text);
+            margin-bottom: 6px; font-weight: 800;
+        }
+
+        .empty-state p { font-size: 12.5px; }
+
+        .loading {
+            text-align: center;
+            padding: 44px 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .loading i {
+            font-size: 24px; color: var(--accent);
+            margin-bottom: 12px; display: block;
+        }
+
+        @media (max-width: 520px) {
+            body { padding: 10px; }
+            .info-bar { grid-template-columns: 1fr 1fr; }
+            .info-bar .info-item:nth-child(3) { grid-column: span 2; }
+            .acc-avatar { width: 48px; height: 48px; font-size: 19px; border-radius: 12px; }
+            .acc-nickname { font-size: 15.5px; }
+            .exp-value { font-size: 15px; }
+            .exp-label { font-size: 8px; }
+            .account-card { padding: 15px; border-radius: 16px; }
+            .acc-id-value { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="brand">
+                <div class="logo-box">
+                    <img src="https://files.catbox.moe/5ldehy.png" alt="SHAPPNO">
+                </div>
+                <div class="brand-text">
+                    <h1>SHAPPNO LV UP</h1>
+                    <p>Automated EXP Farming</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="chip user" id="chip-user">
+                    <i class="fa-solid fa-user"></i>
+                    <span id="chip-username">--</span>
+                </div>
+                <div class="chip time" id="chip-countdown">
+                    <i class="fa-solid fa-clock"></i>
+                    <span id="countdown-text">--:--:--</span>
+                </div>
+                <button class="btn btn-danger" onclick="logout()" title="Logout" style="padding:8px 10px;">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- INFO BAR -->
+        <div class="info-bar">
+            <div class="info-item">
+                <div class="info-item-icon cyan"><i class="fa-solid fa-users"></i></div>
+                <div class="info-item-content">
+                    <h3><span id="info-used">0</span>/<span id="info-limit">0</span></h3>
+                    <p>Accounts</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-item-icon green"><i class="fa-solid fa-angles-up"></i></div>
+                <div class="info-item-content">
+                    <h3 id="info-total-exp">+0</h3>
+                    <p>Total EXP</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-item-icon purple"><i class="fa-solid fa-gamepad"></i></div>
+                <div class="info-item-content">
+                    <h3 id="info-total-matches">0</h3>
+                    <p>Matches</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD SECTION -->
+        <div class="add-section">
+            <div class="section-head">
+                <h3><i class="fa-solid fa-plus-circle"></i> Add New Account</h3>
+                <button class="toggle-btn" onclick="toggleAddForm()" id="toggle-btn">
+                    <i class="fa-solid fa-chevron-down"></i> Open
+                </button>
+            </div>
+
+            <div class="alert alert-error" id="add-alert"></div>
+            <div class="alert alert-success" id="add-alert-success"></div>
+            <div class="alert alert-warning" id="add-alert-warning"></div>
+
+            <div class="add-form-body" id="add-form-body">
+                <div class="tabs" id="tabs">
+                    <button type="button" class="tab active" id="tab-manual" onclick="switchTab('manual')">
+                        <i class="fa-solid fa-keyboard"></i> Manual
+                    </button>
+                    <button type="button" class="tab" id="tab-file" onclick="switchTab('file')" style="display:none;">
+                        <i class="fa-solid fa-file-arrow-up"></i> Upload File
+                    </button>
+                </div>
+
+                <!-- MANUAL TAB -->
+                <div class="tab-panel active" id="panel-manual">
+                    <form id="add-account-form" onsubmit="submitAddAccount(event)">
+                        <div class="form-stack">
+                            <div class="form-group">
+                                <label>Account Type</label>
+                                <select class="form-select" id="acc-type" onchange="toggleFormType()">
+                                    <option value="guest">UID + Password</option>
+                                    <option value="token">Access Token</option>
+                                </select>
+                                <p class="hint-text">Level 2 accounts only work with UID &amp; password.</p>
+                            </div>
+
+                            <div class="form-row-2" id="guest-fields">
+                                <div class="form-group">
+                                    <label>UID</label>
+                                    <input type="text" class="form-input" id="acc-uid" placeholder="Free Fire UID">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="text" class="form-input" id="acc-password" placeholder="Password">
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="token-field" style="display:none;">
+                                <label>Access Token</label>
+                                <input type="text" class="form-input" id="acc-token" placeholder="Paste access token">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="padding:11px;">
+                                <i class="fa-solid fa-plus"></i> Add Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- FILE TAB (VIP ONLY) -->
+                <div class="tab-panel" id="panel-file">
+                    <div class="file-drop" id="file-drop" onclick="document.getElementById('file-input').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p>Click to select a file</p>
+                        <small>.txt  or  .json</small>
+                    </div>
+                    <input type="file" id="file-input" accept=".txt,.json" style="display:none;"
+                           onchange="handleFileSelected(event)">
+                    <div class="file-info" id="file-info"></div>
+
+                    <p class="hint-text" style="margin-top:10px;">
+                        <b>.txt format:</b> one <code>uid:password</code> per line<br>
+                        <b>.json format:</b> <code>[{"uid":"...", "password":"..."}]</code> or <code>{"uid":"pass"}</code>
+                    </p>
+
+                    <button type="button" class="btn btn-primary" style="padding:11px; margin-top:12px; width:100%;"
+                            id="upload-btn" onclick="uploadFileAccounts()" disabled>
+                        <i class="fa-solid fa-upload"></i> Upload &amp; Add All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCOUNTS -->
+        <div class="accounts-list" id="accounts-container">
+            <div class="loading">
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                Loading accounts...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userData = null;
+        let countdownTimer = null;
+        let isVip = false;
+        let selectedFileEntries = null;
+
+        // Cooldowns
+        const refreshCooldowns = {};
+        const restartCooldowns = {};
+        const REFRESH_COOLDOWN_MS = 30 * 1000;
+        const RESTART_COOLDOWN_MS = 120 * 1000;
+
+        // Uptime local ticking
+        const uptimeOffsets = {};
+        const AUTO_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+
+        // ============ ALERTS ============
+        function showAlert(msg, type = 'error') {
+            const errBox = document.getElementById('add-alert');
+            const okBox = document.getElementById('add-alert-success');
+            const warnBox = document.getElementById('add-alert-warning');
+            errBox.classList.remove('show');
+            okBox.classList.remove('show');
+            warnBox.classList.remove('show');
+
+            const icons = { error: 'exclamation-circle', success: 'check-circle', warning: 'triangle-exclamation' };
+            const box = type === 'success' ? okBox : (type === 'warning' ? warnBox : errBox);
+            box.innerHTML = '<i class="fa-solid fa-' + icons[type] + '"></i><span>' + msg + '</span>';
+            box.classList.add('show');
+            if (type === 'success') setTimeout(() => box.classList.remove('show'), 3500);
+        }
+
+        function hideAlerts() {
+            document.getElementById('add-alert').classList.remove('show');
+            document.getElementById('add-alert-success').classList.remove('show');
+            document.getElementById('add-alert-warning').classList.remove('show');
+        }
+
+        // ============ UI TOGGLES ============
+        function toggleAddForm() {
+            const body = document.getElementById('add-form-body');
+            const btn = document.getElementById('toggle-btn');
+            body.classList.toggle('open');
+            if (body.classList.contains('open')) {
+                btn.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Close';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Open';
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+            if (tabName === 'manual') {
+                document.getElementById('tab-manual').classList.add('active');
+                document.getElementById('panel-manual').classList.add('active');
+            } else {
+                document.getElementById('tab-file').classList.add('active');
+                document.getElementById('panel-file').classList.add('active');
+            }
+            hideAlerts();
+        }
+
+        function toggleFormType() {
+            const type = document.getElementById('acc-type').value;
+            const gf = document.getElementById('guest-fields');
+            const tf = document.getElementById('token-field');
+            if (type === 'guest') {
+                gf.style.display = 'grid';
+                tf.style.display = 'none';
+            } else {
+                gf.style.display = 'none';
+                tf.style.display = 'block';
+            }
+        }
+
+        // ============ MANUAL ADD ============
+        async function submitAddAccount(e) {
+            e.preventDefault();
+            hideAlerts();
+
+            const type = document.getElementById('acc-type').value;
+            let payload = {};
+
+            if (type === 'guest') {
+                const uid = document.getElementById('acc-uid').value.trim();
+                const password = document.getElementById('acc-password').value.trim();
+                if (!uid || !password) { showAlert('Please enter UID and Password'); return; }
+                payload = { uid, password };
+            } else {
+                const token = document.getElementById('acc-token').value.trim();
+                if (!token) { showAlert('Please enter access token'); return; }
+                payload = { token };
+            }
+
+            try {
+                const res = await fetch('/api/user/add-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    showAlert('Account added successfully!', 'success');
+                    document.getElementById('add-account-form').reset();
+                    toggleFormType();
+                    loadStats();
+                } else {
+                    showAlert(data.error || 'Failed to add account');
+                }
+            } catch (err) {
+                showAlert('Error: ' + err.message);
+            }
+        }
+
+        // ============ FILE UPLOAD (VIP) ============
+        function handleFileSelected(e) {
+            const file = e.target.files && e.target.files[0];
+            const infoEl = document.getElementById('file-info');
+            const uploadBtn = document.getElementById('upload-btn');
+            selectedFileEntries = null;
+
+            if (!file) {
+                infoEl.classList.remove('show');
+                uploadBtn.disabled = true;
+                return;
+            }
+
+            if (file.size > 8 * 1024 * 1024) {
+                infoEl.classList.remove('show');
+                uploadBtn.disabled = true;
+                showAlert('File too large (max 8MB)');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const text = String(ev.target.result || '');
+                const entries = parseFileContent(file.name, text);
+
+                if (entries === null) {
+                    infoEl.classList.remove('show');
+                    uploadBtn.disabled = true;
+                    showAlert('Invalid file format. Use .txt (uid:password per line) or .json with accounts array.');
+                    return;
+                }
+                if (entries.length === 0) {
+                    infoEl.classList.remove('show');
+                    uploadBtn.disabled = true;
+                    showAlert('No valid uid:password entries found in file.');
+                    return;
+                }
+
+                selectedFileEntries = entries;
+                infoEl.innerHTML = '<i class="fa-solid fa-check-circle"></i> ' +
+                    'Loaded <b>' + entries.length + '</b> account(s) from <b>' +
+                    escapeHtml(file.name) + '</b>';
+                infoEl.classList.add('show');
+                uploadBtn.disabled = false;
+            };
+            reader.onerror = function() {
+                showAlert('Failed to read file');
+            };
+            reader.readAsText(file);
+        }
+
+        function parseFileContent(filename, text) {
+            const name = (filename || '').toLowerCase();
+            const trimmed = text.trim();
+
+            if (name.endsWith('.json') || trimmed.startsWith('[') || trimmed.startsWith('{')) {
+                try {
+                    const data = JSON.parse(trimmed);
+                    const out = [];
+                    if (Array.isArray(data)) {
+                        for (const item of data) {
+                            if (item && typeof item === 'object') {
+                                const u = String(item.uid || '').trim();
+                                const p = String(item.password || item.pass || '').trim();
+                                if (u && p) out.push({ uid: u, password: p });
+                            } else if (typeof item === 'string' && item.includes(':')) {
+                                const [u, ...rest] = item.split(':');
+                                const p = rest.join(':').trim();
+                                if (u.trim() && p) out.push({ uid: u.trim(), password: p });
+                            }
+                        }
+                    } else if (data && typeof data === 'object') {
+                        for (const [u, p] of Object.entries(data)) {
+                            const uu = String(u).trim();
+                            const pp = String(p).trim();
+                            if (uu && pp) out.push({ uid: uu, password: pp });
+                        }
+                    }
+                    return out;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            if (name.endsWith('.txt') || name === '') {
+                const out = [];
+                for (const rawLine of trimmed.split('\n')) {
+                    const line = rawLine.trim();
+                    if (!line || line.startsWith('#')) continue;
+                    const idx = line.indexOf(':');
+                    if (idx < 1) continue;
+                    const u = line.slice(0, idx).trim();
+                    const p = line.slice(idx + 1).trim();
+                    if (u && p) out.push({ uid: u, password: p });
+                }
+                return out;
+            }
+
+            return null;
+        }
+
+        async function uploadFileAccounts() {
+            if (!selectedFileEntries || selectedFileEntries.length === 0) {
+                showAlert('No file loaded');
+                return;
+            }
+            hideAlerts();
+
+            const btn = document.getElementById('upload-btn');
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Uploading ' +
+                selectedFileEntries.length + '...';
+
+            try {
+                const res = await fetch('/api/user/upload-accounts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ accounts: selectedFileEntries })
+                });
+                const data = await res.json();
+
+                if (data.status === 'ok') {
+                    if (data.limit_reached) {
+                        showAlert(
+                            'Added ' + data.added + ' of ' + selectedFileEntries.length +
+                            '. Your limit is ' + data.limit + ' — ' + data.skipped + ' skipped.',
+                            'warning'
+                        );
+                    } else {
+                        showAlert('Added ' + data.added + ' account(s) successfully!', 'success');
+                    }
+                    selectedFileEntries = null;
+                    document.getElementById('file-input').value = '';
+                    document.getElementById('file-info').classList.remove('show');
+                    loadStats();
+                } else {
+                    showAlert(data.error || 'Upload failed');
+                }
+            } catch (err) {
+                showAlert('Error: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        // ============ REMOVE ============
+        async function removeAccount(accountId) {
+            if (!confirm('Remove this account? The bot will stop for it.')) return;
+
+            try {
+                const res = await fetch('/api/user/remove-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ account_id: accountId })
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'ok') {
+                    delete refreshCooldowns[accountId];
+                    delete restartCooldowns[accountId];
+                    delete uptimeOffsets[accountId];
+
+                    setTimeout(() => loadStats(), 800);
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown'));
+                }
+
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        // ============ PAUSE / RESUME ============
+        async function pauseAccount(accountId) {
+            try {
+                const res = await fetch('/api/user/pause-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ account_id: accountId })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    loadStats();
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown'));
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        async function resumeAccount(accountId) {
+            try {
+                const res = await fetch('/api/user/resume-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ account_id: accountId })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    loadStats();
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown'));
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        // ============ RESTART (120s cooldown) ============
+        async function restartAccount(accountId) {
+            const now = Date.now();
+            const last = restartCooldowns[accountId] || 0;
+            if (now - last < RESTART_COOLDOWN_MS) return;
+            if (!confirm('Restart this account? The bot will disconnect and reconnect fresh.')) return;
+
+            restartCooldowns[accountId] = Date.now();
+
+            const cards = document.querySelectorAll('.account-card');
+            let targetBtn = null;
+            for (const card of cards) {
+                const idEl = card.querySelector('.acc-id-value');
+                if (idEl && idEl.innerText.trim().includes(accountId)) {
+                    targetBtn = card.querySelector('.btn-restart');
+                    break;
+                }
+            }
+
+            if (targetBtn) {
+                targetBtn.disabled = true;
+                targetBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Restarting';
+            }
+
+            try {
+                const res = await fetch('/api/user/restart-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ account_id: accountId })
+                });
+
+                const data = await res.json();
+
+                if (data.status !== 'ok') {
+                    delete restartCooldowns[accountId];
+
+                    if (targetBtn) {
+                        targetBtn.disabled = false;
+                        targetBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Restart';
+                    }
+
+                    alert('Error: ' + (data.error || 'Unknown'));
+                    return;
+                }
+
+                loadStats();
+
+            } catch (err) {
+                delete restartCooldowns[accountId];
+
+                if (targetBtn) {
+                    targetBtn.disabled = false;
+                    targetBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Restart';
+                }
+
+                alert('Error: ' + err.message);
+                return;
+            }
+
+            if (targetBtn) startRestartCooldownTimer(targetBtn, accountId);
+        }
+
+        function startRestartCooldownTimer(btn, accountId) {
+            const start = restartCooldowns[accountId] || Date.now();
+
+            const update = () => {
+                const elapsed = Date.now() - start;
+                const remaining = RESTART_COOLDOWN_MS - elapsed;
+
+                if (remaining <= 0) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Restart';
+                    delete restartCooldowns[accountId];
+                    return;
+                }
+
+                const m = Math.floor(remaining / 60000);
+                const s = Math.ceil((remaining % 60000) / 1000);
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-clock"></i> ' + m + 'm ' + s + 's';
+
+                setTimeout(update, 1000);
+            };
+
+            update();
+        }
+
+        // ============ REFRESH (30s cooldown) ============
+        async function refreshAccount(accountId) {
+            const now = Date.now();
+            const last = refreshCooldowns[accountId] || 0;
+            if (now - last < REFRESH_COOLDOWN_MS) return;
+
+            const cards = document.querySelectorAll('.account-card');
+            let targetCard = null, targetBtn = null;
+            for (const card of cards) {
+                const idEl = card.querySelector('.acc-id-value');
+                if (idEl && idEl.innerText.trim().includes(accountId)) {
+                    targetCard = card;
+                    targetBtn = card.querySelector('.btn-refresh');
+                    break;
+                }
+            }
+
+            if (targetBtn) {
+                targetBtn.disabled = true;
+                targetBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Loading';
+            }
+            refreshCooldowns[accountId] = Date.now();
+
+            try {
+                const res = await fetch('/api/user/refresh', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ account_id: accountId })
+                });
+                const data = await res.json();
+                if (data.status === 'ok' && data.account) {
+                    updateSingleAccountCard(targetCard, data.account);
+                } else {
+                    delete refreshCooldowns[accountId];
+                }
+            } catch (err) {
+                delete refreshCooldowns[accountId];
+                console.error(err);
+            } finally {
+                if (targetBtn) startRefreshCooldownTimer(targetBtn, accountId);
+            }
+        }
+
+        function startRefreshCooldownTimer(btn, accountId) {
+            const start = refreshCooldowns[accountId] || Date.now();
+            const update = () => {
+                const elapsed = Date.now() - start;
+                const remaining = REFRESH_COOLDOWN_MS - elapsed;
+                if (remaining <= 0) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Refresh';
+                    delete refreshCooldowns[accountId];
+                    return;
+                }
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-clock"></i> ' + Math.ceil(remaining / 1000) + 's';
+                setTimeout(update, 1000);
+            };
+            update();
+        }
+
+        // ============ HELPERS ============
+        function formatCountdown(sec) {
+            if (sec <= 0) return 'Expired';
+            const d = Math.floor(sec / 86400);
+            const h = Math.floor((sec % 86400) / 3600);
+            const m = Math.floor((sec % 3600) / 60);
+            const s = Math.floor(sec % 60);
+            if (d > 0) return d + 'd ' + h + 'h';
+            if (h > 0) return h + 'h ' + m + 'm';
+            if (m > 0) return m + 'm ' + s + 's';
+            return s + 's';
+        }
+
+        function formatUptime(sec) {
+            sec = Math.max(0, Math.floor(sec || 0));
+            const d = Math.floor(sec / 86400);
+            const h = Math.floor((sec % 86400) / 3600);
+            const m = Math.floor((sec % 3600) / 60);
+            const s = sec % 60;
+            if (d > 0) return d + 'd ' + h + 'h ' + m + 'm';
+            if (h > 0) return h + 'h ' + m + 'm ' + s + 's';
+            if (m > 0) return m + 'm ' + s + 's';
+            return s + 's';
+        }
+
+        function getInitial(nickname, uid) {
+            if (nickname) {
+                const cleaned = String(nickname).replace(/[^\x20-\x7E]/g, '').trim();
+                if (cleaned.length > 0) return cleaned[0].toUpperCase();
+            }
+            if (uid) return String(uid).slice(-1);
+            return '?';
+        }
+
+        function statusInfo(acc) {
+            const s = acc.status || 'ONLINE';
+            if (acc.is_restarting) return { cls: 'restarting', text: 'Restarting' };
+            if (acc.is_paused) return { cls: 'paused', text: 'Paused' };
+
+            const br = {
+                'BR_CHECKING': 'Checking', 'BR_SEARCHING': 'Searching',
+                'BR_JOINING': 'Joining', 'BR_LOBBY': 'Starting',
+                'BR_PLANE': 'On Plane', 'BR_FLYING': 'Flying',
+                'BR_LANDED': 'Playing', 'BR_ELIMINATED': 'Eliminated',
+                'LEVEL_UP': 'Starting'
+            };
+            if (br[s]) return { cls: 'searching', text: 'BR · ' + br[s] };
+
+            const map = {
+                'IN_MATCH': { cls: 'in-match', text: 'In Match' },
+                'ONLINE': { cls: 'online', text: 'Online' },
+                'SEARCHING': { cls: 'searching', text: 'Searching' },
+                'CONNECTING': { cls: 'searching', text: 'Connecting' },
+                'PAUSED': { cls: 'paused', text: 'Paused' },
+                'RESTARTING': { cls: 'restarting', text: 'Restarting' },
+                'NEED_UID': { cls: 'error', text: 'Need UID+Pass' },
+                'NEED_BD': { cls: 'error', text: 'BD only' },
+                'ERROR': { cls: 'error', text: 'Error' },
+                'OFFLINE': { cls: 'offline', text: 'Offline' }
+            };
+            return map[s] || { cls: 'online', text: s };
+        }
+
+        // ============ RENDER ACCOUNT CARD ============
+        function renderAccountCard(acc) {
+            const st = statusInfo(acc);
+            const initial = getInitial(acc.nickname, acc.uid);
+            const gained = acc.gained_exp || 0;
+            const displayUid = acc.actual_uid || acc.uid || '--';
+            const nickname = acc.nickname || 'Unknown';
+            const region = acc.region || 'BD';
+
+            const prog = acc.progress || {
+                level: acc.level || 1,
+                next_level: (acc.level || 1) + 1,
+                current_in_level: 0,
+                total_needed: 1,
+                remaining: 0,
+                percent: 0,
+                is_max: false
+            };
+
+            const isPaused = !!acc.is_paused;
+            const cardCls = 'account-card' + (isPaused ? ' paused' : '');
+
+            const uptime = formatUptime(acc.uptime_seconds || 0);
+
+            const lvlLabel = prog.is_max
+                ? 'Lv ' + prog.level + ' <span class="arrow">·</span> MAX'
+                : 'Lvl ' + prog.level + ' <span class="arrow">→</span> ' + prog.next_level;
+
+            const statsLabel = prog.is_max
+                ? 'MAX LEVEL'
+                : (prog.current_in_level.toLocaleString()) + ' / ' + (prog.total_needed.toLocaleString()) +
+                  ' · ' + prog.percent.toFixed(2) + '%';
+
+            const remainingLine = prog.is_max
+                ? '<span style="color:#fbbf24;">★ Maximum level reached</span>'
+                : '<strong>' + prog.remaining.toLocaleString() + '</strong> EXP remaining';
+
+            const barCls = 'progress-bar-fill' + (prog.is_max ? ' max' : '');
+
+            const pauseBtn = isPaused
+                ? '<button class="btn btn-green" onclick="resumeAccount(\'' + escapeHtml(displayUid) + '\')"><i class="fa-solid fa-play"></i> Resume</button>'
+                : '<button class="btn btn-amber" onclick="pauseAccount(\'' + escapeHtml(displayUid) + '\')"><i class="fa-solid fa-pause"></i> Pause</button>';
+
+            uptimeOffsets[displayUid] = {
+                base: acc.uptime_seconds || 0,
+                ts: Date.now()
+            };
+
+            return ''
+                + '<div class="' + cardCls + '" data-uid="' + escapeHtml(displayUid) + '">'
+                +   '<div class="acc-status ' + st.cls + '">'
+                +     '<span class="status-dot"></span><span>' + st.text + '</span>'
+                +   '</div>'
+
+                +   '<div class="acc-top">'
+                +     '<div class="acc-avatar">' + escapeHtml(initial) + '</div>'
+                +     '<div class="acc-name-block">'
+                +       '<div class="acc-nickname">' + escapeHtml(nickname) + '</div>'
+                +       '<div class="acc-tags">'
+                +         '<span class="tag mode"><i class="fa-solid fa-crosshairs"></i> Lone Wolf</span>'
+                +         '<span class="tag region"><i class="fa-solid fa-globe"></i> ' + escapeHtml(region) + '</span>'
+                +         '<span class="tag uptime" data-uptime-for="' + escapeHtml(displayUid) + '"><i class="fa-solid fa-clock"></i> ' + escapeHtml(uptime) + '</span>'
+                +         '<span class="tag matches"><i class="fa-solid fa-gamepad"></i> ' + (acc.matches_played || 0) + ' matches</span>'
+                +       '</div>'
+                +     '</div>'
+                +   '</div>'
+
+                +   '<div class="acc-id-bar">'
+                +     '<span class="acc-id-label">Account ID</span>'
+                +     '<span class="acc-id-value">' + escapeHtml(displayUid) + '</span>'
+                +     '<button class="copy-btn" onclick="copyUid(\'' + escapeHtml(displayUid) + '\', this)" title="Copy">'
+                +       '<i class="fa-solid fa-copy"></i>'
+                +     '</button>'
+                +   '</div>'
+
+                +   '<div class="exp-grid">'
+                +     '<div class="exp-box">'
+                +       '<div class="exp-label">Initial</div>'
+                +       '<div class="exp-value">' + (acc.initial_exp || 0).toLocaleString() + '</div>'
+                +     '</div>'
+                +     '<div class="exp-box">'
+                +       '<div class="exp-label">Current</div>'
+                +       '<div class="exp-value">' + (acc.current_exp || 0).toLocaleString() + '</div>'
+                +     '</div>'
+                +     '<div class="exp-box">'
+                +       '<div class="exp-label">Gained</div>'
+                +       '<div class="exp-value gained">+' + gained.toLocaleString() + '</div>'
+                +     '</div>'
+                +   '</div>'
+
+                +   '<div class="level-progress">'
+                +     '<div class="lvl-row">'
+                +       '<span class="lvl-current">' + lvlLabel + '</span>'
+                +       '<span class="lvl-stats">' + statsLabel + '</span>'
+                +     '</div>'
+                +     '<div class="progress-bar-bg">'
+                +       '<div class="' + barCls + '" style="width:' + (prog.is_max ? 100 : prog.percent) + '%"></div>'
+                +     '</div>'
+                +     '<div class="remaining-text">' + remainingLine + '</div>'
+                +   '</div>'
+
+                +   '<div class="acc-actions">'
+                +     pauseBtn
+                +     '<button class="btn btn-ghost btn-restart" onclick="restartAccount(\'' + escapeHtml(displayUid) + '\')"><i class="fa-solid fa-rotate-right"></i> Restart</button>'
+                +     '<button class="btn btn-ghost btn-refresh" onclick="refreshAccount(\'' + escapeHtml(displayUid) + '\')"><i class="fa-solid fa-rotate"></i> Refresh</button>'
+                +     '<button class="btn btn-danger" onclick="removeAccount(\'' + escapeHtml(displayUid) + '\')"><i class="fa-solid fa-trash"></i> Delete</button>'
+                +   '</div>'
+                + '</div>';
+        }
+
+        // ============ SINGLE CARD UPDATE ============
+        function updateSingleAccountCard(cardEl, account) {
+            if (!cardEl) return;
+            const newHtml = renderAccountCard(account);
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = newHtml;
+            const newNode = wrapper.firstElementChild;
+            cardEl.replaceWith(newNode);
+
+            newNode.style.transition = 'none';
+            newNode.style.boxShadow = '0 0 25px rgba(56, 189, 248, 0.7)';
+            newNode.style.borderColor = 'rgba(56, 189, 248, 0.6)';
+            setTimeout(() => {
+                newNode.style.transition = 'all 0.4s';
+                newNode.style.boxShadow = '';
+                newNode.style.borderColor = '';
+            }, 400);
+        }
+
+        // ============ COPY UID ============
+        function copyUid(uid, btn) {
+            navigator.clipboard.writeText(uid).then(function() {
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                setTimeout(function() {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fa-solid fa-copy"></i>';
+                }, 1200);
+            }).catch(function() {});
+        }
+
+        // ============ LOAD STATS ============
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/user/stats', { credentials: 'same-origin' });
+                if (res.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+                const data = await res.json();
+                if (data.status !== 'ok') {
+                    if (data.error && data.error.toLowerCase().includes('expired')) {
+                        window.location.href = '/login?expired=1';
+                    }
+                    return;
+                }
+
+                userData = data;
+                isVip = !!data.is_vip;
+
+                document.getElementById('chip-username').innerText = data.username;
+                const chipUser = document.getElementById('chip-user');
+                if (isVip) chipUser.classList.add('vip');
+                else chipUser.classList.remove('vip');
+
+                document.getElementById('info-used').innerText = data.accounts_used;
+                document.getElementById('info-limit').innerText = data.account_limit;
+                document.getElementById('info-total-exp').innerText = '+' + (data.total_gained_exp || 0).toLocaleString();
+                document.getElementById('info-total-matches').innerText = data.total_matches || 0;
+                document.getElementById('countdown-text').innerText = formatCountdown(data.remaining_seconds);
+
+                const fileTab = document.getElementById('tab-file');
+                if (isVip) {
+                    fileTab.style.display = 'flex';
+                } else {
+                    fileTab.style.display = 'none';
+                    if (fileTab.classList.contains('active')) switchTab('manual');
+                }
+
+                const container = document.getElementById('accounts-container');
+                if (!data.accounts || data.accounts.length === 0) {
+                    container.innerHTML = ''
+                        + '<div class="empty-state">'
+                        +   '<i class="fa-solid fa-ghost"></i>'
+                        +   '<h3>No accounts yet</h3>'
+                        +   '<p>Click "Add New Account" above to start farming EXP!</p>'
+                        + '</div>';
+                    return;
+                }
+
+                const html = data.accounts.map(function(a) { return renderAccountCard(a); }).join('');
+                container.innerHTML = html;
+
+                applyCooldowns();
+            } catch (err) {
+                console.error('loadStats error:', err);
+            }
+        }
+
+        // ============ APPLY COOLDOWNS AFTER RENDER ============
+        function applyCooldowns() {
+            const now = Date.now();
+            const cards = document.querySelectorAll('.account-card');
+            cards.forEach(card => {
+                const uidEl = card.querySelector('.acc-id-value');
+                if (!uidEl) return;
+                const uid = uidEl.innerText.trim();
+
+                const rBtn = card.querySelector('.btn-restart');
+                if (rBtn) {
+                    const rLast = restartCooldowns[uid] || 0;
+                    if (now - rLast < RESTART_COOLDOWN_MS) startRestartCooldownTimer(rBtn, uid);
+                }
+                const refreshBtn = card.querySelector('.btn-refresh');
+                if (refreshBtn) {
+                    const fLast = refreshCooldowns[uid] || 0;
+                    if (now - fLast < REFRESH_COOLDOWN_MS) startRefreshCooldownTimer(refreshBtn, uid);
+                }
+            });
+        }
+
+        // ============ UPTIME TICK (every 1 second) ============
+        function tickUptimes() {
+            const now = Date.now();
+            document.querySelectorAll('[data-uptime-for]').forEach(el => {
+                const uid = el.getAttribute('data-uptime-for');
+                const info = uptimeOffsets[uid];
+                if (!info) return;
+                const elapsedSec = Math.floor((now - info.ts) / 1000);
+                const total = info.base + elapsedSec;
+                el.innerHTML = '<i class="fa-solid fa-clock"></i> ' + formatUptime(total);
+            });
+        }
+
+        // ============ USER COUNTDOWN TICK ============
+        function tickCountdown() {
+            if (!userData) return;
+            userData.remaining_seconds = Math.max(0, userData.remaining_seconds - 1);
+            const chip = document.getElementById('chip-countdown');
+            document.getElementById('countdown-text').innerText = formatCountdown(userData.remaining_seconds);
+            if (userData.remaining_seconds < 3600) chip.classList.add('danger');
+            else chip.classList.remove('danger');
+            if (userData.remaining_seconds <= 0) {
+                alert('Your session has expired. Logging out...');
+                window.location.href = '/login?expired=1';
+            }
+        }
+
+        // ============ AUTO REFRESH ============
+        async function autoRefreshAll() {
+            try {
+                if (!userData || !userData.accounts || userData.accounts.length === 0) {
+                    await loadStats();
+                    return;
+                }
+                const uids = userData.accounts.map(function(a) { return a.actual_uid || a.uid; }).filter(function(x) { return x; });
+                await Promise.all(uids.map(function(uid) {
+                    return fetch('/api/user/refresh', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'same-origin',
+                        body: JSON.stringify({ account_id: uid })
+                    }).catch(function() {});
+                }));
+                await loadStats();
+            } catch (e) { console.error(e); }
+        }
+
+        // ============ LOGOUT ============
+        async function logout() {
+            try { await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) {}
+            window.location.href = '/login';
+        }
+
+        // ============ ESCAPE ============
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // ============ INIT ============
+        loadStats();
+        setInterval(loadStats, 5000);
+        setInterval(tickUptimes, 1000);
+        setInterval(tickCountdown, 1000);
+        setInterval(autoRefreshAll, AUTO_REFRESH_INTERVAL_MS);
+    </script>
+</body>
+</html>
